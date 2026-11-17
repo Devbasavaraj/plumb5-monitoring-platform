@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plumb5 SDK | Developer Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="https://img.icons8.com/color/48/system-task--v1.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+           Plumb5 SDK Dashboard v2
+        </a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <div class="col-md-3">
+            <div class="list-group shadow-sm">
+                <a href="#section-clients" class="list-group-item list-group-item-action active" data-bs-toggle="list">Clients & Licenses</a>
+                <a href="#section-usage" class="list-group-item list-group-item-action" data-bs-toggle="list">Usage Analytics</a>
+                <a href="#section-triggers" class="list-group-item list-group-item-action" data-bs-toggle="list">Physical Triggers</a>
+                <a href="#section-campaign" class="list-group-item list-group-item-action" data-bs-toggle="list">Push Campaigns</a>
+                <a href="#section-users" class="list-group-item list-group-item-action" data-bs-toggle="list">App Users</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="tab-content">
+
+                <!-- Client Management Section ... -->
+
+                <!-- Client Management Section -->
+                <div class="tab-pane fade show active" id="section-clients">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Add New Client</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="create-client-form" class="row g-3">
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="new-client-name" placeholder="Client Name (e.g. Beta Corp)" required>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="new-client-key" placeholder="API Key (e.g. P5-PROD-BETA)" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-success w-100">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">Active SDK Licenses</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover align-middle" id="client-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Client Name</th>
+                                        <th>API Key</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usage Analytics Section ... -->
+                <div class="tab-pane fade" id="section-usage">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">Event Volume Trends</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="usageChart" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Physical Triggers Section -->
+                <div class="tab-pane fade" id="section-triggers">
+                    <div class="row">
+                        <!-- Geofence Form -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">Add Geofence</div>
+                                <div class="card-body">
+                                    <form id="geofence-form">
+                                        <select class="form-select mb-2" id="gf-client" required></select>
+                                        <input type="text" class="form-control mb-2" id="gf-id" placeholder="Geofence ID (e.g. store_01)" required>
+                                        <input type="text" class="form-control mb-2" id="gf-name" placeholder="Name (e.g. Mall Entry)" required>
+                                        <div class="row">
+                                            <div class="col"><input type="number" step="any" class="form-control mb-2" id="gf-lat" placeholder="Lat" required></div>
+                                            <div class="col"><input type="number" step="any" class="form-control mb-2" id="gf-lon" placeholder="Lon" required></div>
+                                        </div>
+                                        <input type="number" class="form-control mb-2" id="gf-radius" placeholder="Radius (meters)" required>
+                                        <button type="submit" class="btn btn-primary w-100">Add Geofence</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Beacon Form -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-white">Add Beacon</div>
+                                <div class="card-body">
+                                    <form id="beacon-form">
+                                        <select class="form-select mb-2" id="beacon-client" required></select>
+                                        <input type="text" class="form-control mb-2" id="beacon-uuid" placeholder="UUID" required>
+                                        <div class="row">
+                                            <div class="col"><input type="number" class="form-control mb-2" id="beacon-major" placeholder="Major" required></div>
+                                            <div class="col"><input type="number" class="form-control mb-2" id="beacon-minor" placeholder="Minor" required></div>
+                                        </div>
+                                        <button type="submit" class="btn btn-secondary w-100">Add Beacon</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">Active Triggers</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm mb-0" id="trigger-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Client</th>
+                                        <th>Details</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campaign Section -->
+                <div class="tab-pane fade" id="section-campaign">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">Blast Push Notification</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="campaign-form">
+                                <div class="mb-3">
+                                    <label class="form-label">Client Target</label>
+                                    <select class="form-select" id="campaign-target"></select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Target App Package</label>
+                                    <input type="text" class="form-control" id="target-package" placeholder="e.g. com.realworld.app" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Campaign Name (Internal)</label>
+                                    <input type="text" class="form-control" id="campaign-name" placeholder="e.g. Summer Promo 2026">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Message Title</label>
+                                    <input type="text" class="form-control" id="push-title" placeholder="e.g. Weekend Flash Sale">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Image Link (URL)</label>
+                                    <input type="url" class="form-control" id="push-image" placeholder="https://example.com/banner.png">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Body Text</label>
+                                    <textarea class="form-control" id="push-body" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Broadcast Campaign</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- App Users Section -->
+                <div class="tab-pane fade" id="section-users">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Identified App Users</h5>
+                            <button class="btn btn-sm btn-outline-primary" onclick="loadUsers()">Refresh List</button>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-hover align-middle mb-0" id="user-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Source App</th>
+                                        <th>First Seen</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

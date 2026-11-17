@@ -1,0 +1,13 @@
+target/
+build/
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+.gradle/
+local.properties
+*.bak*
+*.backup*
+*firebase*adminsdk*.json
+google-services.json
